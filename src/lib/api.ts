@@ -29,7 +29,8 @@ export async function getProductByCategory(
   const res = await fetch(
     `${process.env.API_URL}/product?categoryId=${id}&SortOrderPrice=${SortOrderPrice}`,
     {
-      next: { revalidate: 120 },
+      // next: { revalidate: 120 },
+      cache: "no-cache",
     }
   );
 
