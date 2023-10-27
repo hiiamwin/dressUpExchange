@@ -30,7 +30,7 @@ export async function getProductByCategory(
     `${process.env.API_URL}/product?categoryId=${id}&SortOrderPrice=${SortOrderPrice}`,
     {
       // next: { revalidate: 300 },
-      cache: "no-cache",
+      cache: "no-store",
     }
   );
 
