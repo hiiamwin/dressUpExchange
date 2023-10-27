@@ -13,7 +13,6 @@ export default async function Product({
     searchParams.category,
     searchParams.SortOrderPrice
   );
-  console.log(searchParams);
   return (
     <div className="flex">
       <div className="w-[12%] p-4 my-5 ml-5 bg-stone-200">
