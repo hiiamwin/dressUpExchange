@@ -1,8 +1,9 @@
 import { getAllProduct, getProductByCategory } from "@/lib";
 import { IProduct, IProductList } from "@/types";
-import React from "react";
+import React, { Suspense } from "react";
 import { ProductCard } from "./components";
 import Link from "next/link";
+import Loading from "./loading";
 
 export default async function Product({
   searchParams,
@@ -74,17 +75,19 @@ export default async function Product({
           You have no items in your wishlist.
         </div>
       </div>
-      <div className="flex-1 mx-5 grid grid-cols-4 gap-4 my-5 p-4 bg-stone-200">
-        {listProduct?.items.map((product) => (
-          <ProductCard
-            key={product.productId}
-            name={product.name}
-            price={product.price}
-            productId={product.productId}
-            thumbnail={product.thumbnail}
-          />
-        ))}
-      </div>
+      <Suspense fallback={<Loading />}>
+        <div className="flex-1 mx-5 grid grid-cols-4 gap-4 my-5 p-4 bg-stone-200">
+          {listProduct?.items.map((product) => (
+            <ProductCard
+              key={product.productId}
+              name={product.name}
+              price={product.price}
+              productId={product.productId}
+              thumbnail={product.thumbnail}
+            />
+          ))}
+        </div>
+      </Suspense>
     </div>
   );
 }
