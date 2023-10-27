@@ -9,12 +9,27 @@ type product = {
   productId: number;
   thumbnail: string;
 };
-export default function ProductCard({ name, price, productId, thumbnail }: product) {
+export default function ProductCard({
+  name,
+  price,
+  productId,
+  thumbnail,
+}: product) {
   return (
     <div className="shadow-lg hover:shadow-2xl">
-      <Link href={`product/${productId}`} className="flex flex-col">
+      <Link
+        href={`product/${productId}`}
+        className="flex flex-col"
+        prefetch={false}
+      >
         <div className={`relative h-72 max-h-72`}>
-          <Image src={thumbnail} alt="aaa" fill className="object-cover" priority />
+          <Image
+            src={thumbnail}
+            alt="aaa"
+            fill
+            className="object-cover"
+            priority
+          />
         </div>
 
         <div className="p-3 bg-slate-100 flex justify-around flex-col fill-transparent">
@@ -25,7 +40,9 @@ export default function ProductCard({ name, price, productId, thumbnail }: produ
               <Start rating={4.4} />
             </div>
 
-            <h3 className="text-right text-sm mr-3 text-orange-400">{price?.toLocaleString()}VND</h3>
+            <h3 className="text-right text-sm mr-3 text-orange-400">
+              {price?.toLocaleString()}VND
+            </h3>
           </div>
         </div>
       </Link>
