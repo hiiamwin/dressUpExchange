@@ -25,7 +25,6 @@ export async function getProductByCategory(
   if (category === "wig") {
     id = 2;
   }
-  console.log(SortOrderPrice);
   const res = await fetch(
     `${process.env.API_URL}/product?categoryId=${id}&SortOrderPrice=${SortOrderPrice}`,
     {

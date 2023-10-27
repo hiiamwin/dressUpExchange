@@ -24,6 +24,7 @@ export default async function Product({
               className="text-xs hover:text-orange-500"
               href="/product?category=costume"
               replace={true}
+              prefetch={false}
             >
               Costume
             </Link>
@@ -33,6 +34,7 @@ export default async function Product({
               className="text-xs hover:text-orange-500"
               href="/product?category=wig"
               replace={true}
+              prefetch={false}
             >
               Wig
             </Link>
@@ -42,6 +44,7 @@ export default async function Product({
               className="text-xs hover:text-orange-500"
               href="/product?category=others"
               replace={true}
+              prefetch={false}
             >
               Others
             </Link>
@@ -59,6 +62,7 @@ export default async function Product({
                   href={`/product?SortOrderPrice=0&category=${searchParams.category}`}
                   className="px-2 py-2 my-2"
                   replace={true}
+                  prefetch={false}
                 >
                   Ascending Price
                 </Link>
@@ -68,6 +72,7 @@ export default async function Product({
                   href={`/product?SortOrderPrice=1&category=${searchParams.category}`}
                   className="px-2 py-2 my-2"
                   replace={true}
+                  prefetch={false}
                 >
                   Decending Price
                 </Link>
