@@ -6,6 +6,8 @@ import CartItem from "./CartItem";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { redirect } from "next/navigation";
+import Image from "next/image";
+import qr from "../../../../public/thangnaocotien.jpg";
 
 type props = {
   address: string | undefined;
@@ -123,16 +125,28 @@ export default function CartList({ address, name, phone, token }: props) {
 
       <div className="bg-[#EFE9E2] p-8 flex mt-2 justify-between items-center">
         <div className="flex flex-col items-center justify-center gap-1">
-          <div className="flex items-center gap-2">
-            <label htmlFor="cod">COD</label>
-            <input
-              type="radio"
-              name="payment"
-              value={"cod"}
-              id="cod"
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
+          <div className="flex items-center gap-2 flex-col">
+            <div>
+              <label htmlFor="cod">QR Momo</label>
+              <input
+                type="radio"
+                name="payment"
+                value={"cod"}
+                id="cod"
+                onChange={(e) => setPaymentMethod(e.target.value)}
+              />
+            </div>
+
+            {paymentMethod === "cod" && (
+              <Image
+                src={qr}
+                width={200}
+                height={200}
+                alt="chuyen tien cho chung toi"
+              />
+            )}
           </div>
+
           <div className="flex items-center gap-2">
             <label htmlFor="vnpay">VNPAY</label>
             <input

@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = "sqlserver://DressupExchange.mssql.somee.com:1433;initial catalog=DressupExchange;user=ducanhnt_SQLLogin_1;password=nyhwz3bvfe;TrustServerCertificate=true"
+}
+
+model Categories {
+  CategoryID   Int     @id(map: "PK__Categori__19093A2B0C625AE2") @default(autoincrement())
+  CategoryName String? @db.NVarChar(50)
+  Status       String? @db.VarChar(20)
+}
+
+model Laundry {
+  LaundryId   Int          @id(map: "PK__Laundry__E207BE763960651B") @default(autoincrement())
+  LaundryName String?      @db.NVarChar(Max)
+  Price       String?      @db.NVarChar(10)
+  OrderItems  OrderItems[]
+}
+
+model Notifications {
+  NotificationID Int       @id(map: "PK__Notifica__20CF2E322E78670B") @default(autoincrement())
+  UserID         Int?
+  Message        String?   @db.Text
+  Timestamp      DateTime? @db.DateTime
+  Status         String?   @db.VarChar(20)
+  Users          Users?    @relation(fields: [UserID], references: [UserID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Notificat__UserI__5535A963")
+}
+
+model OrderItems {
+  OrderItemID Int       @id(map: "PK__OrderIte__57ED06A1E1F93DE5") @default(autoincrement())
+  OrderID     Int?
+  ProductID   Int?
+  VoucherId   Int?
+  Quantity    Int?
+  Status      String?   @db.VarChar(20)
+  LaundryId   Int?
+  price       String?   @db.VarChar(Max)
+  Orders      Orders?   @relation(fields: [OrderID], references: [OrderID], onDelete: NoAction, onUpdate: NoAction, map: "FK__OrderItem__Order__47DBAE45")
+  Products    Products? @relation(fields: [ProductID], references: [ProductID], onDelete: NoAction, onUpdate: NoAction, map: "FK__OrderItem__Produ__48CFD27E")
+  Laundry     Laundry?  @relation(fields: [LaundryId], references: [LaundryId], onDelete: NoAction, onUpdate: NoAction, map: "FK_OrderItems_Laundry")
+  Vouchers    Vouchers? @relation(fields: [VoucherId], references: [VoucherID], onDelete: NoAction, onUpdate: NoAction, map: "FK_OrderItems_Vouchers1")
+}
+
+model Orders {
+  OrderID         Int          @id(map: "PK__Orders__C3905BAF10B218EF") @default(autoincrement())
+  UserID          Int?
+  OrderDate       DateTime?    @db.Date
+  TotalAmount     Decimal?     @db.Decimal(10, 2)
+  Status          String?      @db.VarChar(20)
+  ShippingAddress String?      @db.NVarChar(Max)
+  OrderItems      OrderItems[]
+  Users           Users?       @relation(fields: [UserID], references: [UserID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Orders__UserID__4222D4EF")
+}
+
+model ProductFeedback {
+  FeedbackID Int       @id(map: "PK__ProductF__6A4BEDF6DA5F32B7") @default(autoincrement())
+  UserID     Int?
+  ProductID  Int?
+  Rating     Int?
+  Comment    String?   @db.Text
+  Status     String?   @db.VarChar(20)
+  Products   Products? @relation(fields: [ProductID], references: [ProductID], onDelete: NoAction, onUpdate: NoAction, map: "FK__ProductFe__Produ__4CA06362")
+  Users      Users?    @relation(fields: [UserID], references: [UserID], onDelete: NoAction, onUpdate: NoAction, map: "FK__ProductFe__UserI__5165187F")
+}
+
+model ProductImages {
+  ImageID   Int       @id(map: "PK__ProductI__7516F4ECCA1D5686") @default(autoincrement())
+  ProductID Int?
+  ImageURL  String?   @db.NVarChar(Max)
+  Status    String?   @db.VarChar(20)
+  Products  Products? @relation(fields: [ProductID], references: [ProductID], onDelete: NoAction, onUpdate: NoAction, map: "FK__ProductIm__Produ__4E88ABD4")
+}
+
+model Products {
+  ProductID       Int               @id(map: "PK__Products__B40CC6ED004B5E22") @default(autoincrement())
+  UserID          Int?
+  Name            String?           @db.NVarChar(100)
+  Description     String?           @db.NVarChar(Max)
+  Price           Decimal?          @db.Decimal(10, 2)
+  Status          String?           @db.VarChar(20)
+  Quantity        Int?
+  CategoryID      Int?
+  Thumbnail       String?           @db.NVarChar(Max)
+  Size            String?           @db.VarChar(10)
+  OrderItems      OrderItems[]
+  ProductFeedback ProductFeedback[]
+  ProductImages   ProductImages[]
+  Users           Users?            @relation(fields: [UserID], references: [UserID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Products__UserID__3B75D760")
+  Vouchers        Vouchers[]
+}
+
+model Users {
+  UserID          Int               @id(map: "PK__Users__1788CCAC4F00A8C3") @default(autoincrement())
+  PhoneNumber     String?           @db.VarChar(20)
+  Password        String?           @db.VarChar(100)
+  Name            String?           @db.NVarChar(100)
+  Address         String?           @db.NVarChar(100)
+  Role            String?           @db.VarChar(10)
+  Status          String?           @db.VarChar(20)
+  RefreshToken    String?           @db.NVarChar(100)
+  Notifications   Notifications[]
+  Orders          Orders[]
+  ProductFeedback ProductFeedback[]
+  Products        Products[]
+  Vouchers        Vouchers[]
+}
+
+model Vouchers {
+  VoucherID      Int          @id(map: "PK__Vouchers__3AEE79C10CF72925") @default(autoincrement())
+  UserID         Int?
+  ProductID      Int?
+  Name           String?      @db.NVarChar(100)
+  Code           String?      @db.NVarChar(20)
+  DiscountAmount Decimal?     @db.Decimal(10, 2)
+  RemainingCount Int?
+  ExpireDate     DateTime?    @db.Date
+  Status         String?      @db.VarChar(20)
+  OrderItems     OrderItems[]
+  Products       Products?    @relation(fields: [ProductID], references: [ProductID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Vouchers__Produc__5165187F")
+  Users          Users?       @relation(fields: [UserID], references: [UserID], onDelete: NoAction, onUpdate: NoAction, map: "FK__Vouchers__UserID__44FF419A")
+}
